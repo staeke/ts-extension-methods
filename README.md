@@ -1,6 +1,6 @@
 ## Typescript Extension Methods
 
-Good news! Typescript/Javascript already has extension methods. And they work well with latest version of TS and your editor. Take a look at [./src/index.ts] on how to do.
+Good news! Typescript/Javascript already has extension methods. And they work well with latest version of TS and your editor. Take a look at [./src/index.ts](./src/index.ts) on how to do.
 
 **NOTE THOUGH**: It's probably wise to include all extensions upfront, rather than through dynamic `import`s, at least for interface extensions, since otherwise you'd be modifying already used prototypes, thereby likely invalidating optimizations done by JIT compilers for Javascript (TurboFan, IonMonkey).
 

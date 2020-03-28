@@ -1,0 +1,23 @@
+{
+  "name": "ts-extension-methods-plugin",
+  "version": "1.0.0",
+  "description": "...",
+  "repository": "...",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "13.7.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "nexts",
+    "ts-node": "^8.8.1"
+  },
+  "dependencies": {
+    "@types/node": "^12.12.31"
+  }
+}

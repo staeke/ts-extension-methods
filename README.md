@@ -31,11 +31,11 @@ Remember bullet 3. above. We just ditched prototype extension, the natural Javas
   1. namespace pollution (e.g. inheritance collision)
   1. possible performance implications?
 
-  But, hey aren't `symbol`s meant to deal with problem 1? To find out if that would work, I created this repo just as a proof of concept. Extensions to classes extend their respective prototypes, but not with `string`s, but `symbol`s. Thus there can be no collision. Extensions to interfaces extend `Object` (yes `Object`, read on...).
+But, `symbol`s are meant to deal with problem 1. So to see if that worked, I created this repo just as a proof of concept. Extensions to classes extend their respective prototypes, but not with `string`s, but `symbol`s. Thus there can be no collision. Extensions to interfaces extend `Object` (yes `Object`, read on...).
 
 ### What about performance?
 
-  Extending `Object` may sound weird. We could end up with 1000 methods or more on `Object.prototype`. I created a performance test [./src/perftest.js], to examine the performance difference between a prototype with 1000 methods (indexed by `symbol`) vs just one. If we allow for warmup there is no statistical difference. neither in V8 (Safari/Chrome/Node) nor SpiderMonkey (Firefox). Focusing on V8, that applies to TurboFan (the optimized compiler), but not to Ignition (the bytecode interpreter) where the big prototype is 8-13% slower on my machine. I argue this is negligable still, since any hot (reasonably coded code path) would run in TurboFan, and extension method access for interfaces is very likely not a significant part of a typicaly CPU consumption. 
+  Extending `Object` may sound weird. We could end up with 1000 methods or more on `Object.prototype`. I created a performance test [./src/perftest.js](./src/perftest.js), to examine the performance difference between a prototype with 1000 methods (indexed by `symbol`) vs just one. If we allow for warmup there is no statistical difference. neither in V8 (Safari/Chrome/Node) nor SpiderMonkey (Firefox). Focusing on V8, that applies to TurboFan (the optimized compiler), but not to Ignition (the bytecode interpreter) where the big prototype is 8-13% slower on my machine. I argue this is negligable still, since any hot (reasonably coded code path) would run in TurboFan, and extension method access for interfaces is very likely not a significant part of a typicaly CPU consumption. 
   
   Furthermore, extensions allow for working with just interfaces and plain objects (from JSON deserialization), without converting to custom model classes. This skips an extra conversion step, likely gaining performance.
 

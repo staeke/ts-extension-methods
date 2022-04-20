@@ -31,7 +31,19 @@ Remember bullet 3. above. We just ditched prototype extension, the natural Javas
   1. namespace pollution (e.g. inheritance collision)
   1. possible performance implications?
 
-But, `symbol`s are meant to deal with problem 1. So to see if that worked, I created this repo just as a proof of concept. Extensions to classes extend their respective prototypes, but not with `string`s, but `symbol`s. Thus there can be no collision. Extensions to interfaces extend `Object` (yes `Object`, read on...).
+But, `symbol`s are meant to deal with problem 1. So to see if that worked, I created this repo just as a proof of concept. Extensions to classes extend their respective prototypes, but not with `string`s, but `symbol`s. Thus there can be no collision. There is actually also an even simpler solution, where you can index these prototypes directly with the function, but that's not compatible with current Typescript, which requires indexed properties to be of `number`/`string`/`symbol`. If that allowed function too it would work fine. So something like
+
+```ts
+// myExtension.ts
+export function myExtension(this: Foo) { ... }
+
+// foo.ts
+import { myExtension } from './myExtension'
+...
+foo[myExtension]()
+```
+
+Extensions to interfaces extend `Object` (yes `Object`, read on...).
 
 ### What about performance?
 

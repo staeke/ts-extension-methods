@@ -36,11 +36,12 @@ But, `symbol`s are meant to deal with problem 1. So to see if that worked, I cre
 ```ts
 // myExtension.ts
 export function myExtension(this: Foo) { ... }
+Foo.prototype[myExtension] = myExtension;
 
 // foo.ts
 import { myExtension } from './myExtension'
 ...
-foo[myExtension]()
+foo[myExtension]();
 ```
 
 Extensions to interfaces extend `Object` (yes `Object`, read on...).

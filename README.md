@@ -44,7 +44,35 @@ import { myExtension } from './myExtension'
 foo[myExtension]();
 ```
 
-Extensions to interfaces extend `Object` (yes `Object`, read on...).
+Extensions to interfaces extend `Object` (yes `Object`, more on this later...).
+
+### Embracing symbols as a solution
+
+Here is how translation between typescript and javascript could possibly work.
+
+```ts
+// myExtension.ts
+namespace MyApp {
+  export function myExtension(this: Foo) { ... }
+}
+
+// could compile to 
+const export myExtension = Symbol("MyApp.myExtension");
+Foo.prototype[myExtension] = (this: Foo) { ... };
+
+
+// foo.ts
+import { myExtension } from './myExtension' // <-- optional??
+...
+foo.myExtension();
+
+// could compile to
+import { myExtension } from './myExtension'
+...
+foo[myExtension]();
+```
+
+Once we embrace the `Symbol` as an implementation solution. There are many ways to actually handle the translation. The important thing to take away is that there is no need for a new runtime artifact created by the Transcript compiler, like "Callsite rewriting". No, if Symbols is the solution provided by javascript to address this very issue. And it is acceptable by Ryan (are you there???), and the everyday typescript user that would likely love syntactic sugar on top of javascript compatible Symbols. Then it probably is the best option we have.
 
 ### What about performance?
 
